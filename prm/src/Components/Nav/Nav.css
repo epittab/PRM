@@ -1,0 +1,52 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.Nav {
+    background-color: rgba(52, 34, 168, 0.9);
+    height: 100vh;
+    width: 10%;
+}
+
+
+div.Nav nav ul{
+    display: flex;
+    flex-direction: column;
+    
+    
+}
+
+li{
+    transition: ease-in .2s;
+    list-style: none;
+    margin: 3rem 0 3rem 0; 
+    cursor: pointer;
+    font-family: sans-serif;
+    color: rgba(220, 220, 225, .9);
+    
+}
+
+li:hover{
+    transition: ease-in-out .2s;
+    color: rgba(240, 240, 250, 1);
+    font-weight: bold;
+}
+
+#burger-menu{
+   margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+
+}
+
+.burger-menu-line{
+    height: 2px;
+    width: 1.5rem;
+    background-color: rgba(220, 220, 225, .9);
+    margin: 3px 0 3px 0;
+    border-radius: 3px;
+}
