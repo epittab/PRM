@@ -13,29 +13,36 @@ class Nav extends React.Component{
             isOpen: true
         }
         this.handleClick = this.handleClick.bind(this);
+        this.handleSelection = this.handleSelection.bind(this);
     }
 
     handleClick(){
         this.state.isOpen ? this.setState({isOpen: false}) : this.setState({isOpen: true})
     }
 
+    handleSelection(e){
+        console.log(e.target.value)
+        this.props.selector(e.target.value)
+    }
+
     renderText(){
         return(
             <ul>
-                <li>Logs</li>
-                <li>Friends</li>
-                <li>Settings</li>
+                <li onClick={this.handleSelection} value={1}>Logs</li>
+                <li onClick={this.handleSelection} value={2}>Friends</li>
+                <li onClick={this.handleSelection} value={3}>Settings</li>
             </ul>
         )
     }
 
     renderIcons(){
         //width="387.826" height="517.101"
+        // error with click handling - not currently passing value
         return(
             <ul>
-                <li className='Nav-menu-icons' ><img src={logIcon} alt='log icon'/></li>
-                <li className='Nav-menu-icons' ><img src={friendIcon} alt='friends icon'/></li>
-                <li className='Nav-menu-icons' ><img src={settingIcon} alt='Settings icon'/></li>
+                <li className='Nav-menu-icons' onClick={this.handleSelection} value={1} ><img src={logIcon} alt='log icon' /></li>
+                <li className='Nav-menu-icons' onClick={this.handleSelection} value={2} ><img src={friendIcon} alt='friends icon' /></li>
+                <li className='Nav-menu-icons' onClick={this.handleSelection} value={3} ><img src={settingIcon} alt='Settings icon'  /></li>
             </ul>
         )
     }
