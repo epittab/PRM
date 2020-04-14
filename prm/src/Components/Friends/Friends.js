@@ -13,6 +13,15 @@ class Friends extends React.Component{
         }
     }
 
+    renderFriends(){
+        return(
+            <div>
+                { this.state.data.map(friend => <p>{friend}</p>) }
+            </div>
+        )
+        
+    }
+
     renderNoFriends(){
         return(
             <div>
@@ -25,12 +34,7 @@ class Friends extends React.Component{
     render() {
         return (
             <div className='Friends'>
-
-
-                {this.state.data.length === 0 
-                ? this.renderNoFriends()
-                : this.state.data.map(friend => <p>{friend}</p>)
-                }
+                { this.state.data.length === 0 ? this.renderNoFriends() : this.renderFriends() }
             </div>
         )
     } 

@@ -7,20 +7,77 @@ class AddFriend extends React.Component{
         super(props);
         this.state = {
             viewTemplate: 1,
+            first_name: '',
+            last_name: '',
+            dob: '',
+            relation: "1"
         }
         this.handleClick = this.handleClick.bind(this)
+        this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
     }
+
+    
+
+    // Posting
+
+    validate(obj){
+        //add validation logic later
+        return false
+    }
+
+    handleChange(e){
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+        
+        console.log('change');
+    }
+
+    handleSubmit(e){
+        const postObject = {
+            first_name: this.state.first_name,
+            last_name: this.state.last_name,
+            dob: this.state.dob,
+            relation: this.state.relation
+        }
+        e.preventDefault();
+        this.validate(postObject) ? this.postFriend(postObject) : this.postError(postObject) ;
+
+    }
+
+    postFriend(obj){
+        //user prompt
+        alert('Form submitted!')
+        
+        console.log(obj);
+        this.setState({
+            ...this.state,
+            viewTemplate: 1,
+            first_name: '',
+            last_name: '',
+            dob: '',
+            relation: "1"
+        })
+        console.log('submit!')
+    }
+
+    postError(obj){
+        //user prompt
+        alert('Error on form submission! Please check input field(s).')
+
+        console.log(obj)
+        console.log('error!')
+
+    }
+
+    //rendering
 
     handleClick(){
         this.setState({
             viewTemplate: 2
         })
         console.log('click')
-    }
-
-    handleSubmit(){
-        console.log('submit!')
     }
 
     renderButton(){
@@ -40,37 +97,45 @@ class AddFriend extends React.Component{
                         <label  className='AddFriend-label' 
                                 htmlFor='friend-first-name'>First Name</label>
                         <input className='AddFriend-input' 
+                                onChange={this.handleChange}
                                 id='friend-name' 
-                                name='' 
-                                value=''></input>
+                                name='first_name'
+                                type='text' 
+                                ></input>
                     </div>
                     
                     <div className='AddFriend-element-wrapper'>
                         <label  className='AddFriend-label' 
                                 htmlFor='friend-last-name'>Last Name</label>
-                        <input className='AddFriend-input' 
+                        <input className='AddFriend-input'
+                                onChange={this.handleChange} 
                                 id='friend-name' 
-                                name='' 
-                                value=''></input>
+                                name='last_name' 
+                                type='text'
+                                ></input>
                     </div>
                     
                     <div className='AddFriend-element-wrapper'>
                         <label  className='AddFriend-label' 
                                 htmlFor='friend-name'>Date of Birth</label>
                         <input className='AddFriend-input' 
+                                onChange={this.handleChange}
                                 id='friend-name' 
-                                name='' 
-                                value=''></input>
+                                name='dob' 
+                                type='date'
+                                ></input>
                     </div>
                     
 
                     <div className='AddFriend-element-wrapper'>
                         <label  className='AddFriend-label' 
-                                htmlFor='friend-name'>Name</label>
-                        <input className='AddFriend-input' 
-                                id='friend-name' 
-                                name='' 
-                                value=''></input>
+                                htmlFor='friend-name'>Relationship Type</label>
+                                <select name='relation' onChange={this.handleChange}>
+                                    <option value={1}>Family</option>
+                                    <option value={2}>Friend</option>
+                                    <option value={3}>Aquaintance</option>
+                                </select>
+                       
                     </div>
                     <button>Submit</button>
                 </form>                
