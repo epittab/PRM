@@ -6,6 +6,7 @@ import EngageLog from '../Engage/EngageLog'
 import EngageFuture from '../Engage/EngageFuture'
 import AddFriend from '../Friends/AddFriend'
 //view 2
+import Friends from '../Friends/Friends'
 //view 3
 import Settings from '../Settings/Settings'
 
@@ -27,25 +28,25 @@ class Home extends React.Component{
 
     renderViewTemplateOne(){
         return(
-            <div>
-                <EngageLog />
-                <AddFriend />
-                <EngageFuture />
+            <div className='Home-view'>
+                < EngageLog />
+                < AddFriend />
+                < EngageFuture />
             </div>
         )
     }
 
     renderViewTemplateTwo(){
         return(
-            <div>
-                2
+            <div className='Home-view'>
+                < Friends />
             </div>
         )
     }
 
     renderViewTemplateThree(){
         return(
-            <div>
+            <div className='Home-view'>
                 < Settings />
             </div>
         )
