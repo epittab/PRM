@@ -39,7 +39,8 @@ class AddFriend extends React.Component{
             first_name: this.state.first_name,
             last_name: this.state.last_name,
             dob: this.state.dob,
-            relation: this.state.relation
+            relation: this.state.relation,
+            friends_since: new Date().toISOString()
         }
         e.preventDefault();
         this.validate(postObject) ? this.postFriend(postObject) : this.postError(postObject) ;
