@@ -23,7 +23,7 @@ class AddFriend extends React.Component{
 
     validate(obj){
         //add validation logic later
-        return false
+        return true
     }
 
     handleChange(e){
@@ -46,11 +46,37 @@ class AddFriend extends React.Component{
 
     }
 
-    postFriend(obj){
+    async postFriend(obj){
+        // posting
+        console.log(obj)
+        const URL = `http://localhost:4000`
+        const route = `/api/friends`
+        try{
+            const postData = await fetch(`${URL}${route}`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json;charset=UTF-8',
+                },
+                body: JSON.stringify(obj)
+                }
+            )
+            console.log(postData)
+            if (postData.ok) {
+                const jsonResponse = await postData.json();
+                console.log(jsonResponse);
+                return jsonResponse;
+            }
+            throw new Error('Error posting!');
+        }
+        catch(error){
+            console.log(`There was an error: ${error}`)
+        }
         //user prompt
+          
         alert('Form submitted!')
         
-        console.log(obj);
+    
         this.setState({
             ...this.state,
             viewTemplate: 1,
