@@ -1,5 +1,7 @@
 import React from 'react';
 
+import FriendElement from './FriendElement'
+
 import AddFriend from './AddFriend'
 
 import './Friends.css'
@@ -47,7 +49,7 @@ class Friends extends React.Component{
     renderFriends(){
         return(
             <div>
-                { this.state.data.map(friend => <p key={friend.friend_id}>{friend.first_name} {friend.last_name}</p>) }
+                { this.state.data.map(friend => < FriendElement key={friend.friend_id} data={friend} />) }
             </div>
         )
         

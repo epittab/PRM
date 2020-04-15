@@ -1,15 +1,23 @@
 .Home {
     display: flex;
     flex-direction: row;
+    
 }
 
 .Home-content{
     display: flex;
     flex-direction: column;
     align-items: center;
+    
     width: 100%;
     margin: 2rem 1rem 0rem 1rem;
    
+}
+
+.Home-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 h1{

@@ -1,0 +1,33 @@
+.FriendElement{
+    height: 4rem;
+    width: 80vw;
+
+    background-color: rgb(245, 240, 245);
+
+    border-radius: 10px;
+    border: solid 1px lightgray;
+
+    margin-bottom: .5rem; 
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+}
+
+.FriendElement:hover{
+    background-color: lightgray;
+}
+
+.FriendElement-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+}
+
+span {
+    margin: 0px 3px 0px 3px;
+}
