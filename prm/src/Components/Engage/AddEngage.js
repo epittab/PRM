@@ -8,6 +8,7 @@ class AddEngage extends React.Component{
         this.state = {
             isLoaded: false,
             friends_array: [],
+            engage_type_array: [],
             friend_search: '',
             scheduled_on: '',
             friend_id: '',
@@ -18,6 +19,83 @@ class AddEngage extends React.Component{
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
     }
+
+    // Posting
+
+    validate(obj){
+        //add validation logic later
+        return true
+    }
+
+    handleChange(e){
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+        
+        console.log('change');
+    }
+
+    handleSubmit(e){
+        const postObject = {
+            friend_id: '',
+            engage_type_id: '',
+            scheduled_on: ''
+        }
+        e.preventDefault();
+        this.validate(postObject) ? this.postFriend(postObject) : this.postError(postObject) ;
+
+    }
+
+    async postFriend(obj){
+        // posting
+        console.log(obj)
+        const URL = `http://localhost:4000`
+        const route = `/api/engage`
+        try{
+            const postData = await fetch(`${URL}${route}`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json;charset=UTF-8',
+                },
+                body: JSON.stringify(obj)
+                }
+            )
+            console.log(postData)
+            if (postData.ok) {
+                const jsonResponse = await postData.json();
+                console.log(jsonResponse);
+                return jsonResponse;
+            }
+            throw new Error('Error posting!');
+        }
+        catch(error){
+            console.log(`There was an error: ${error}`)
+        }
+        //user prompt
+          
+        alert('Form submitted!')
+        
+    
+        this.setState({
+            ...this.state,
+            viewTemplate: 1,
+            friend_id: '',
+            engage_type_id: '',
+            scheduled_on: ''
+        })
+        console.log('submit!')
+    }
+
+    postError(obj){
+        //user prompt
+        alert('Error on form submission! Please check input field(s).')
+
+        console.log(obj)
+        console.log('error!')
+
+    }
+
 
     async getFriends(){
         const URL = `http://localhost:4000`
@@ -38,16 +116,45 @@ class AddEngage extends React.Component{
 
     }
 
+    async getEngageTypes(){
+        const URL = `http://localhost:4000`
+        const route = `/api/engagetype`
+        try{
+            const getData = await fetch(`${URL}${route}`, {
+                method: 'GET'
+            })
+            if (getData.ok) {
+                const jsonReponse = await getData.json()
+                return jsonReponse
+            }
+            throw new Error('Error Message')
+        }
+        catch(error){   
+            console.log(`error!!! ${error}`)
+        }
+
+    }
+
     componentDidMount(){
+        let temp_data_holder = {}
         this.getFriends().then(
             (data) => {
-                this.setState({
-                    isLoaded: true,
-                    friends_array: data
-                })
+                temp_data_holder["getFriends"] = data
             }
-            
         )
+        this.getEngageTypes()
+        .then(
+            (data) => {
+                temp_data_holder["getEngageTypes"] = data
+            }
+        ).then(
+            this.setState({
+                isLoaded: true,
+                friends_array: temp_data_holder,
+                engage_type_array: temp_data_holder,
+            })
+        )
+        console.log(temp_data_holder)
     }
 
     handleClick(){
@@ -56,20 +163,9 @@ class AddEngage extends React.Component{
         })
     }
 
-    handleChange(e){
-        this.setState({
-            [e.target.name]: e.target.value
-        })
-    }
-
-    handleSubmit(e){
-        e.preventDefault();
-        console.log('submitted')
-    }
-
     renderFriendsList(){
         const regexPattern = new RegExp(this.state.friend_search, "i");
-        const filteredArray = this.state.friends_array.filter( friend => regexPattern.test(friend.first_name) || regexPattern.test(friend.last_name) )
+        const filteredArray = this.state.friends_array['getFriends'].filter( friend => regexPattern.test(friend.first_name) || regexPattern.test(friend.last_name) )
         console.log(filteredArray)
         return(
             <div className='AddEngage-friends-list'>
@@ -77,6 +173,8 @@ class AddEngage extends React.Component{
             </div>
         )
     }
+
+  
 
     renderButton(){
         return(
@@ -87,13 +185,16 @@ class AddEngage extends React.Component{
     }
 
     renderForm(){
+        
+        let array_test = this.state.engage_type_array['getEngageTypes']        
+
         return(
             <div className='AddEngage-form'>
                 <form onSubmit={this.handleSubmit}>
                     <div className="AddEngage-form-element">
                         <label className='AddEngage-form-label' htmlFor=''>Friend</label>
                         <input className='' id='' name='friend_search' onChange={this.handleChange}></input>
-                        { this.state.friends_array.length > 0 && this.state.friend_search !== '' ?
+                        { this.state.friends_array['getFriends'].length > 0 && this.state.friend_search !== '' ?
                          this.renderFriendsList() :
                          '' }
                     </div>
@@ -103,9 +204,13 @@ class AddEngage extends React.Component{
                     </div>
                     <div className="AddEngage-form-element">
                         <label className='AddEngage-form-label' htmlFor=''>Engage Type</label>
-                        <input className='' id='' name='' onChange={this.handleChange}></input>
+                        <select>
+                             <option> - Select One - </option> 
+                             {array_test.map(data => <option key={data.engage_type_id}>{data.engage_name}</option>)}
+                        </select>
+                        
                     </div>
-
+                    <button>Submit</button>
                 </form> 
             </div>
         )
